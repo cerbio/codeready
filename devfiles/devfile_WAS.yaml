@@ -68,5 +68,5 @@ commands:
   actions:
   - type: exec
     component: wasbase
-    command: env JVM_EXTRA_CMD_ARGS=-Xnoloa ./start_server.sh & 
-    workdir: /work
+    command: ./run.sh 
+    workdir: /mnt/common/scripts
