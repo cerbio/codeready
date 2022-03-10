@@ -1,5 +1,5 @@
 #!/bin/bash
-ARTIFACTS=/mnt/common/artifatcs
+ARTIFACTS=/mnt/common/artifacts
 WCONFIG=/work/config
 echo "Copying files to WAS configuration folders.."
 cp "$ARTIFACTS/*" "$WCONFIG"

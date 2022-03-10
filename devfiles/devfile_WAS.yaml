@@ -56,14 +56,14 @@ commands:
   actions:
   - type: exec
     component: maven
-    command: publish.sh
-    workdir: ${CHE_PROJECTS_ROOT}/wasbase/scripts
+    command: scripts/publish.sh
+    workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Deploy
   actions:
   - type: exec
     component: wasbase
-    command: deploy.sh
-    workdir: /work
+    command: scripts/deploy.sh
+    workdir: /mnt/common
 - name: Start
   actions:
   - type: exec

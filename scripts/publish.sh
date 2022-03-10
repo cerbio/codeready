@@ -1,5 +1,5 @@
 #!/bin/bash
-ARTIFACTS=/mnt/common/artifatcs
+ARTIFACTS=/mnt/common/artifacts
 SCRIPTS=/mnt/common/scripts
 echo "Copying files to common folders.."
 [ ! -d "$ARTIFACTS" ] && mkdir -p "$ARTIFACTS"
