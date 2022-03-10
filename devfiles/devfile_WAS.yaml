@@ -56,18 +56,17 @@ commands:
   actions:
   - type: exec
     component: maven
-    command: scripts/publish.sh
-    workdir: ${CHE_PROJECTS_ROOT}/wasbase
+    command: ./publish.sh
+    workdir: ${CHE_PROJECTS_ROOT}/wasbase/scripts
 - name: Deploy
   actions:
   - type: exec
     component: wasbase
-    command: scripts/deploy.sh
-    workdir: /mnt/common
+    command: ./deploy.sh
+    workdir: /mnt/common/scripts
 - name: Start
   actions:
   - type: exec
     component: wasbase
-    command: |
-      env JVM_EXTRA_CMD_ARGS=-Xnoloa start_server.sh
+    command: env JVM_EXTRA_CMD_ARGS=-Xnoloa ./start_server.sh & 
     workdir: /work
