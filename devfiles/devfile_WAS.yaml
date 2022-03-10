@@ -4,7 +4,7 @@ metadata:
 projects:
   - name: wasbase
     source:
-      location: "https://github.com/cerbio/ci.docker.websphere-traditional.git"
+      location: "https://github.com/cerbio/codeready.git"
       type: git
       branch: master
 components:
@@ -56,21 +56,18 @@ commands:
   actions:
   - type: exec
     component: maven
-    command: |
-      cp samples/hello-world/app.ear samples/hello-world/install_app.py samples/hello-world/was-config.props /mnt/common
-    workdir: ${CHE_PROJECTS_ROOT}/wasbase
+    command: publish.sh
+    workdir: ${CHE_PROJECTS_ROOT}/wasbase/scripts
 - name: Deploy
   actions:
   - type: exec
     component: wasbase
-    command: |
-      cp /mnt/common/* /work/config
-      env JVM_EXTRA_CMD_ARGS=-Xnoloa /work/configure.sh
+    command: deploy.sh
     workdir: /work
 - name: Start
   actions:
   - type: exec
     component: wasbase
     command: |
-      env JVM_EXTRA_CMD_ARGS=-Xnoloa /work/start_server.sh
+      env JVM_EXTRA_CMD_ARGS=-Xnoloa start_server.sh
     workdir: /work
