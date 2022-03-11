@@ -75,10 +75,29 @@ print "Installing application ..."
 node = getName(getNodeId(""))
 server = getName(getServerId(""))
 
-parms = "-appname Application"
+
+try:
+    application = sys.argv[0]
+    print 'applicationame: ' + application
+except IndexError:
+    raise SystemExit("Missing required paramater: <applicationame>")
+try:
+    archpath = sys.argv[0]
+    print 'archivepath: ' + application
+except IndexError:
+    raise SystemExit("Missing required paramater: <archivepath>")
+
+if application  in apps:
+  print 'Uninstalling application: ' + application
+  AdminApp.uninstall(application)
+  AdminConfig.save()
+  print 'Uninstalled app!'
+print 'Done!'
+
+parms = "-appname " + application
 parms += " -node " + node + " -server " + server
 parms += " -nouseMetaDataFromBinary"
-app = AdminApp.install("/work/config/app.ear", [parms])
+app = AdminApp.install(archpath, [parms])
 
 AdminTask.setGenericJVMArguments('[-nodeName ' + node + ' -serverName ' + server + ' -genericJvmArguments "-Xnoloa"]')
 
