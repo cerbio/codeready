@@ -82,11 +82,12 @@ try:
 except IndexError:
     raise SystemExit("Missing required paramater: <applicationame>")
 try:
-    archpath = sys.argv[0]
-    print 'archivepath: ' + application
+    archpath = sys.argv[1]
+    print 'archivepath: ' + archpath
 except IndexError:
     raise SystemExit("Missing required paramater: <archivepath>")
 
+apps = adminApp.list()
 if application  in apps:
   print 'Uninstalling application: ' + application
   AdminApp.uninstall(application)
