@@ -74,12 +74,31 @@ print 'Installing application ...'
 node = getName(getNodeId(""))
 server = getName(getServerId(""))
 
+try:
+    application = sys.argv[0]
+    print 'applicationame: ' + application
+except IndexError:
+    raise SystemExit("Missing required paramater: <applicationame>")
+try:
+    archpath = sys.argv[1]
+    print 'archivepath: ' + archpath
+except IndexError:
+    raise SystemExit("Missing required paramater: <archivepath>")
+
+apps = AdminApp.list()
+if application  in apps:
+  print 'Uninstalling application: ' + application
+  AdminApp.uninstall(application)
+  AdminConfig.save()
+  print 'Uninstalled app!'
+print 'Done!'
+
 parms  = ' -blaname "WebSphere:blaname=HelloWorld,blaedition=BASE"'
-parms += ' -appname HelloWorld'
+parms += "-appname " + application
 parms += ' -nodeployejb  -usedefaultbindings -createMBeansForResources -noreloadEnabled -custom enhancedEarDisableValidation=true'
 parms += " -node " + node + " -server " + server
 parms += " -nouseMetaDataFromBinary"
-app = AdminApp.install("/work/config/EnterpriseHelloWorld.ear", [parms])
+app = AdminApp.install('/work/config/'+archpath, [parms])
 
 AdminTask.setGenericJVMArguments('[-nodeName ' + node + ' -serverName ' + server + ' -genericJvmArguments "-Xnoloa"]')
 
