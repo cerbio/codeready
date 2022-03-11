@@ -62,7 +62,7 @@ commands:
   actions:
   - type: exec
     component: wasbase
-    command: scripts/deploy.sh HelloWorld app.ear
+    command: scripts/deploy.sh /work/config/install_app.py HelloWorld app.ear
     workdir: /mnt/common
 - name: Start
   actions:
