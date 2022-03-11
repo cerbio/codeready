@@ -98,7 +98,7 @@ print 'Done!'
 parms = "-appname " + application
 parms += " -node " + node + " -server " + server
 parms += " -nouseMetaDataFromBinary"
-app = AdminApp.install(archpath, [parms])
+app = AdminApp.install('/work/config/'+archpath, [parms])
 
 AdminTask.setGenericJVMArguments('[-nodeName ' + node + ' -serverName ' + server + ' -genericJvmArguments "-Xnoloa"]')
 
