@@ -5,4 +5,4 @@ USR=wasadmin
 PSW=`cat/tmp/PASSWORD`
 
 echo "Stopping server ..................."
-/opt/IBM/WebSphere/AppServer/profiles/$PROFILE_NAME/bin/stoptServer.sh $SERVER_NAME  -username $USR -password $PSW
+/opt/IBM/WebSphere/AppServer/profiles/$PROFILE_NAME/bin/stopServer.sh $SERVER_NAME  -username $USR -password $PSW
