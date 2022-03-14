@@ -69,7 +69,10 @@ def getName (objectId):
         stIndex = 1
     return objectId[stIndex:endIndex+1]
 
-print 'Installing application ...'
+print 'AdminControl help:'
+AdminControl.help()
+
+print 'Starting application configuration...'
 
 node = getName(getNodeId(""))
 server = getName(getServerId(""))
@@ -103,3 +106,4 @@ app = AdminApp.install('/work/config/'+archpath, [parms])
 AdminTask.setGenericJVMArguments('[-nodeName ' + node + ' -serverName ' + server + ' -genericJvmArguments "-Xnoloa"]')
 
 AdminConfig.save()
+
