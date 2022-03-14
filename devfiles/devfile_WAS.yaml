@@ -48,13 +48,6 @@ components:
         attributes:
           discoverable: 'true'
           public: 'true'
-          path: /HelloWorld/hello
-      - name: genericapps
-        port: 9443
-        attributes:
-          discoverable: 'true'
-          public: 'true'
-          path: /HelloWorld/hello
       - name: was
         port: 9043
         attributes:
