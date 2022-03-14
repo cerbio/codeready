@@ -69,13 +69,12 @@ def getName (objectId):
         stIndex = 1
     return objectId[stIndex:endIndex+1]
 
-print 'AdminControl help:'
-AdminControl.help()
 
-print 'Starting application configuration...'
+print "Installing application ..."
 
 node = getName(getNodeId(""))
 server = getName(getServerId(""))
+
 
 try:
     application = sys.argv[0]
@@ -104,6 +103,7 @@ parms += " -nouseMetaDataFromBinary"
 app = AdminApp.install('/work/config/'+archpath, [parms])
 
 AdminTask.setGenericJVMArguments('[-nodeName ' + node + ' -serverName ' + server + ' -genericJvmArguments "-Xnoloa"]')
+
 AdminConfig.save()
 
 appManager = AdminControl.queryNames('node='+node+',type=ApplicationManager,process='+server+',*')
