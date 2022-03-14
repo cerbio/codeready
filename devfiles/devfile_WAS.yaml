@@ -70,3 +70,9 @@ commands:
     component: wasbase
     command: env JVM_EXTRA_CMD_ARGS=-Xnoloa /work/start_server.sh
     workdir: /work
+- name: Stop
+  actions:
+  - type: exec
+    component: wasbase
+    command:  scripts/stop.sh
+    workdir: /mnt/common
