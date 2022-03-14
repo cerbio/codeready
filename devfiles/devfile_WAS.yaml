@@ -87,3 +87,19 @@ commands:
     component: wasbase
     command:  scripts/stop.sh
     workdir: /mnt/common
+- name: Debug (Attach)
+  actions:
+    - referenceContent: |
+        {
+        "version": "0.2.0",
+        "configurations": [
+        {
+            "type": "java",
+            "request": "attach",
+            "name": "Debug (Attach)",
+            "hostName": "localhost",
+            "port": 8000
+        }
+        ]
+        }
+      type: vscode-launch
