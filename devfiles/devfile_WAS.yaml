@@ -22,6 +22,8 @@ components:
         containerPath: /home/jboss/.m2
       - name: commondata
         containerPath: /mnt/common
+      - name: wasconfig
+        containerPath: /work/config    
     image: 'registry.redhat.io/codeready-workspaces/plugin-java8-rhel8:2.15'
     env:
       - value: '-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/jboss'
@@ -35,6 +37,8 @@ components:
     volumes:
       - name: commondata
         containerPath: /mnt/common   
+      - name: wasconfig
+        containerPath: /work/config    
     env:
       - name: TEST
         value: user
@@ -52,11 +56,17 @@ components:
     command: ['sleep']
     args: ['infinity']
 commands:
+- name: Init
+  actions:
+  - type: exec
+    component: maven
+    command: scripts/init.sh
+    workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Build & Publish
   actions:
   - type: exec
     component: maven
-    command: scripts/publish.sh
+    command: scripts/build.sh
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Deploy
   actions:
