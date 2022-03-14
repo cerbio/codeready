@@ -103,3 +103,7 @@ app = AdminApp.install('/work/config/'+archpath, [parms])
 AdminTask.setGenericJVMArguments('[-nodeName ' + node + ' -serverName ' + server + ' -genericJvmArguments "-Xnoloa"]')
 
 AdminConfig.save()
+
+appManager = AdminControl.queryNames('node='+node+',type=ApplicationManager,process='+server+',*')
+AdminControl.invoke(appManager, 'startApplication', application)
+AdminConfig.save()
