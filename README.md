@@ -8,7 +8,7 @@ Main steps once created the workspace:
 4. Start/Stop server as required.
 
 
-Note that in order to access the application URL it is required to create a route out of the 'apps' service specifying 'passthrough' as secure configuration option.
+Note that in order to access the application URL it is required to create a route based on the 'apps' service specifying 'passthrough' as secure configuration option.
 
 Application URL:
 <ROUTE_OCP>/HelloWorld/hello
