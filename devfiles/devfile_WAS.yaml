@@ -53,7 +53,6 @@ components:
         attributes:
           discoverable: 'true'
           public: 'true'
-          path: ibm/console/login.do?action=secure
     command: ['sleep']
     args: ['infinity']
 commands:
@@ -98,7 +97,7 @@ commands:
             "request": "attach",
             "name": "Debug (Attach)",
             "hostName": "localhost",
-            "port": 8000
+            "port": 7777
         }
         ]
         }
