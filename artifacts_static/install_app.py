@@ -103,7 +103,7 @@ parms += " -nouseMetaDataFromBinary"
 app = AdminApp.install('/work/config/'+archpath, [parms])
 
 AdminTask.setGenericJVMArguments('[-nodeName ' + node + ' -serverName ' + server + ' -genericJvmArguments "-Xnoloa"]')
-
+AdminTask.setJVMProperties('[-nodeName ' + node + ' -serverName ' + server + ' -debugMode true -debugArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7777"]')
 AdminConfig.save()
 
 appManager = AdminControl.queryNames('node='+node+',type=ApplicationManager,process='+server+',*')

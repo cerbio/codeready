@@ -70,7 +70,7 @@ def getName (objectId):
     return objectId[stIndex:endIndex+1]
 
 
-print "Installing application ..."
+print "Deploying application ..."
 
 node = getName(getNodeId(""))
 server = getName(getServerId(""))
@@ -99,9 +99,11 @@ parms = "-appname " + application
 parms += " -node " + node + " -server " + server
 parms += " -nouseMetaDataFromBinary"
 app = AdminApp.install('/work/config/'+archpath, [parms])
-
+print 'Available tasks:'
+AdminTask.help()
+print 'Setting JVM properties'
 AdminTask.setGenericJVMArguments('[-nodeName ' + node + ' -serverName ' + server + ' -genericJvmArguments "-Xnoloa"]')
-
+AdminTask.setJVMProperties('[-nodeName ' + node + ' -serverName ' + server + ' -debugMode true -debugArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7777"]')
 AdminConfig.save()
 
 appManager = AdminControl.queryNames('node='+node+',type=ApplicationManager,process='+server+',*')
