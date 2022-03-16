@@ -98,7 +98,7 @@ print 'Done!'
 parms = "-appname " + application
 parms += " -node " + node + " -server " + server
 parms += " -nouseMetaDataFromBinary"
-app = AdminApp.install('/work/config/'+archpath, [parms])
+app = AdminApp.install(archpath, [parms])
 print 'Available tasks:'
 AdminTask.help()
 print 'Setting JVM properties'
