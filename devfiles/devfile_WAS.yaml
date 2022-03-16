@@ -31,7 +31,7 @@ components:
   - alias: wasbase
     type: dockerimage
     image: ibmcom/websphere-traditional:latest-ubi
-    memoryLimit: 2Gi
+    memoryLimit: 1Gi
     mountSources: true
     volumes:
       - name: wasconfig
