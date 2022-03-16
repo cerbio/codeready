@@ -56,6 +56,7 @@ The command, defined in the devfile, includes three main parameters that can be 
 - The name of the application (WAS application name)
 - The absolute pathname of the archive to be deployed.
 
+______
 
 ## Sample implementation
 
@@ -68,7 +69,15 @@ Main steps to work with Websphere:
 - Execute the Debugger to attach to the WAS java process.
 
 
-Note that in order to access the application URL it is required to create a route based on the 'apps' service specifying 'passthrough' as secure configuration option.
+__Note__ that in order to access the application URL it is required to create a route based on the 'apps' service specifying 'passthrough' as secure configuration option.
 
 Application URL:
 <ROUTE_OCP>/HelloWorld/hello
+
+______
+
+__Note that once the workspace is stopped the Websphere (wasbase) container is stopped too and it does loose the configuration applied.__
+
+The configuration must be done again: 
+- Execute the _Init Environment_ command to enable debug mode on  the server.
+- Execute the _Deploy_  command to redeploy the application: the  _'work/config'_ is maintined in a persisted volume and maintains the artifacts produced before the workspace has been stopped.
