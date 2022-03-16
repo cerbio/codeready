@@ -100,7 +100,7 @@ parms += "-appname " + application
 parms += ' -nodeployejb  -usedefaultbindings -createMBeansForResources -noreloadEnabled -custom enhancedEarDisableValidation=true'
 parms += " -node " + node + " -server " + server
 parms += " -nouseMetaDataFromBinary"
-app = AdminApp.install('/work/config/'+archpath, [parms])
+app = AdminApp.install(archpath, [parms])
 
 AdminTask.setGenericJVMArguments('[-nodeName ' + node + ' -serverName ' + server + ' -genericJvmArguments "-Xnoloa"]')
 AdminTask.setJVMProperties('[-nodeName ' + node + ' -serverName ' + server + ' -debugMode true -debugArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7777"]')

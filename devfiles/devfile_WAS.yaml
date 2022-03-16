@@ -69,7 +69,7 @@ commands:
   actions:
   - type: exec
     component: wasbase
-    command: scripts/deploy.sh "/work/config/install_app.py HelloWorld app.ear"
+    command: scripts/deploy.sh "/work/config/install_app.py HelloWorld /work/config/app.ear"
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Start
   actions:
