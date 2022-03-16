@@ -40,7 +40,7 @@ __Wasbase component__
 This component runs the Websphere application server and implements the deployment tasks.
 
 - It is defined from the official IBM image [websphere-traditional](https://hub.docker.com/r/ibmcom/websphere-traditional/).
-- Copies the project code locally (mountSources = true) to implement the scripts used to control the Websphere server and deploy the application artifacts.
+- Copies the project code locally (mountSources = true) to access the scripts used to control the Websphere server and deploy the application artifacts.
 - Defines a _Init Environment_ command configuring and starting the server in debug mode (port 7777).
 - Defines a _Deploy_ command to deploy the artifacts published by the build in the _'work/config'_ folder into the Websphere application server.
 - Defines a _Start_ command to start the Websphere application server.
@@ -60,6 +60,13 @@ The command, defined in the devfile, includes three main parameters that can be 
 ## Sample implementation
 
 The workpace is functional out of the box using a sample application and artifatcs defined in the [artifacts](./artifacts/) folder: the build simply copies them to the deployment folder ( _'work/config'_).
+
+Main steps to work with Websphere:
+- In order to initialize the workspace execute the _Init Environment_ command on the _wasbase_ component (this command will be added as postStart when available in the current RH CodeReady Workspaces implementation, see devfiles spec 2.0).
+- Execute the _Build & Publish_ command.
+- Execute the _Deploy_ command.
+- Execute the Debugger to attach to the WAS java process.
+
 
 Note that in order to access the application URL it is required to create a route based on the 'apps' service specifying 'passthrough' as secure configuration option.
 
