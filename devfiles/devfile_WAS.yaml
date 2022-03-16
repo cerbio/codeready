@@ -20,8 +20,6 @@ components:
     volumes:
       - name: m2
         containerPath: /home/jboss/.m2
-      - name: commondata
-        containerPath: /mnt/common
       - name: wasconfig
         containerPath: /work/config    
     image: 'registry.redhat.io/codeready-workspaces/plugin-java8-rhel8:2.15'
@@ -34,14 +32,10 @@ components:
     type: dockerimage
     image: ibmcom/websphere-traditional:latest-ubi
     memoryLimit: 2Gi
+    mountSources: true
     volumes:
-      - name: commondata
-        containerPath: /mnt/common   
       - name: wasconfig
         containerPath: /work/config    
-    env:
-      - name: TEST
-        value: user
     endpoints:
       - name: apps
         port: 9443
@@ -53,39 +47,42 @@ components:
         attributes:
           discoverable: 'true'
           public: 'true'
+          protocol: 'https'
     command: ['sleep']
     args: ['infinity']
 commands:
-- name: Init
+- name: Init Environment
+  # This command should be added as a postStart event for the container (see devfile spec 2.0)
   actions:
   - type: exec
-    component: maven
-    command: scripts/init.sh
+    component: wasbase
+    #The debug mode requires a server restart!
+    command: 'scripts/deploy.sh "scripts/debug_enable.py" && scripts/stop.sh && scripts/start.sh'
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Build & Publish
   actions:
   - type: exec
     component: maven
-    command: scripts/build.sh
+    command: 'scripts/build.sh && scripts/deploy.sh "/work/config/install_app.py HelloWorld app.ear"'
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Deploy
   actions:
   - type: exec
     component: wasbase
     command: scripts/deploy.sh "/work/config/install_app.py HelloWorld app.ear"
-    workdir: /mnt/common
+    workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Start
   actions:
   - type: exec
     component: wasbase
     command: scripts/start.sh
-    workdir: /mnt/common
+    workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Stop
   actions:
   - type: exec
     component: wasbase
     command:  scripts/stop.sh
-    workdir: /mnt/common
+    workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Debug (Attach)
   actions:
     - referenceContent: |

@@ -1,6 +1,6 @@
 #!/bin/bash
-SCRIPTS=/mnt/common/scripts
-echo "Executing configuration for WAS.."
+SCRIPTS="$CHE_PROJECTS_ROOT"/scripts
+echo "Deploying configuration to Websphere.."
 env JVM_EXTRA_CMD_ARGS=-Xnoloa "$SCRIPTS"/configure.sh "$@"
 echo "Configuration done!"
 
