@@ -41,7 +41,6 @@ This component runs the Websphere application server and implements the deployme
 
 - It is defined from the official IBM image [websphere-traditional](https://hub.docker.com/r/ibmcom/websphere-traditional/).
 - Copies the project code locally (mountSources = true) to access the scripts used to control the Websphere server and deploy the application artifacts.
-- Defines a _Init Environment_ command configuring and starting the server in debug mode (port 7777).
 - Defines a _Deploy_ command to deploy the artifacts published by the build in the _'work/config'_ folder into the Websphere application server.
 - Defines a _Start_ command to start the Websphere application server.
 - Define a _Stop_ command to stop the Websphere application server.
@@ -63,10 +62,10 @@ ______
 The workpace is functional out of the box using a sample application and artifatcs defined in the [artifacts](./artifacts/) folder: the build simply copies them to the deployment folder ( _'work/config'_).
 
 Main steps to work with Websphere:
-- In order to initialize the workspace execute the _Init Environment_ command on the _wasbase_ component (this command will be added as postStart when available in the current RH CodeReady Workspaces implementation, see devfiles spec 2.0).
+- In order to initialize the workspace and start the server in debug mode, execute the _Start_ command on the _wasbase_ component (this command will be added as postStart when available in the current RH CodeReady Workspaces implementation, see devfiles spec 2.0).
 - Execute the _Build & Publish_ command.
 - Execute the _Deploy_ command.
-- Execute the Debugger to attach to the WAS java process.
+- Execute the IDE Debugger to attach to the WAS java process.
 
 
 __Note__ that in order to access the application URL it is required to create a route based on the 'apps' service specifying 'passthrough' as secure configuration option.
@@ -79,5 +78,4 @@ ______
 __Note that once the workspace is stopped the Websphere (wasbase) container is stopped too and it does loose the configuration applied.__
 
 The configuration must be done again: 
-- Execute the _Init Environment_ command to enable debug mode on  the server.
 - Execute the _Deploy_  command to redeploy the application: the  _'work/config'_ is maintined in a persisted volume and maintains the artifacts produced before the workspace has been stopped.

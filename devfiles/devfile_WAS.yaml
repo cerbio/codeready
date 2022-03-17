@@ -36,6 +36,8 @@ components:
     volumes:
       - name: wasconfig
         containerPath: /work/config    
+      - name: wasetc
+        containerPath: /etc/websphere    
     endpoints:
       - name: apps
         port: 9443
@@ -51,14 +53,6 @@ components:
     command: ['sleep']
     args: ['infinity']
 commands:
-- name: Init Environment
-  # This command should be added as a postStart event for the container (see devfile spec 2.0)
-  actions:
-  - type: exec
-    component: wasbase
-    #The debug mode requires a server restart!
-    command: 'scripts/deploy.sh "scripts/debug_enable.py" && scripts/stop.sh && scripts/start.sh'
-    workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Build & Publish
   actions:
   - type: exec
