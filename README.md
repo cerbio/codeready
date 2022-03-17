@@ -78,4 +78,4 @@ ______
 __Note that once the workspace is stopped the Websphere (wasbase) container is stopped too and it does loose the configuration applied.__
 
 The configuration must be done again: 
-- Execute the _Deploy_  command to redeploy the application: the  _'work/config'_ is maintined in a persisted volume and maintains the artifacts produced before the workspace has been stopped.
+- Execute the _Deploy_  command to redeploy the application: the  _'work/config'_ is maintined in a persisted volume and maintains the artifacts produced before the workspace has been stopped. The same applies to any properties file stored in the /etc/websphere folder backed by a persistent volume.
