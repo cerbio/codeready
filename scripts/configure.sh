@@ -1,19 +1,11 @@
-start_server()
-{
-    echo "Starting server ..................."
-    /opt/IBM/WebSphere/AppServer/profiles/$PROFILE_NAME/bin/startServer.sh $SERVER_NAME
-}
-
-stop_server()
-{
-    echo "Stopping server ..................."
-    kill -s INT $PID
-}
-
+#!/bin/bash
+SCRIPTS="$CHE_PROJECTS_ROOT"/wasbase/scripts
 echo "Setting Password"
 /work/set_password.sh
-start_server
-PID=$(ps -C java -o pid= | tr -d " ")
+
+echo starting the Websphere server...
+"$SCRIPTS"/start.sh
+
 echo "Applying configuration"
 if [ ! -z "$1" ]; then
     /work/run_py_script.sh "$@"
