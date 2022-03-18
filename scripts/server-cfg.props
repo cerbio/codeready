@@ -7521,6 +7521,20 @@ AttributeInfo=properties(name,value)
 # End of Section 1.0_1# Cell=!{cellName}:Node=!{nodeName}:Server=!{serverName}
 #
 #
+# Header
+#
+ResourceType=VirtualHost
+ImplementingResourceType=VirtualHost
+ResourceId=Cell=!{cellName}:VirtualHost=admin_host
+AttributeInfo=aliases(port,hostname)
+#
+
+#   
+#Properties
+#
+443=*
+#
+#
 #
 EnvironmentVariablesSection
 #
