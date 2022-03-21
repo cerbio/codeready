@@ -34,8 +34,15 @@ components:
     memoryLimit: 1Gi
     mountSources: true
     volumes:
+      # This volume is required to enable profiles command (manageprofile.sh) to not fail!
+      - name: profilenable
+        containerPath: /workspace   
+      # This volume will contains the artifacts produced by the build and to be deployed in the server.
       - name: wasconfig
-        containerPath: /work/config    
+        containerPath: /work/config
+      # Thsi volume overwrites the defautl server to make it persistent!
+      - name: wasprofile
+        containerPath: //opt/IBM/WebSphere/AppServer/profiles/AppSrv01
       - name: wasetc
         containerPath: /etc/websphere    
     endpoints:
@@ -58,6 +65,12 @@ commands:
   - type: exec
     component: maven
     command: 'scripts/build.sh'
+    workdir: ${CHE_PROJECTS_ROOT}/wasbase
+- name: Init defaullt profile
+  actions:
+  - type: exec
+    component: wasbase
+    command: scripts/restore_profile.sh
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Deploy
   actions:
