@@ -66,7 +66,7 @@ commands:
     component: maven
     command: 'scripts/build.sh'
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
-- name: Init defaullt profile
+- name: Init default profile
   actions:
   - type: exec
     component: wasbase
