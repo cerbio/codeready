@@ -1,10 +1,7 @@
 PROFILE_NAME=${PROFILE_NAME:-"AppSrv01"}
 SERVER_NAME=${SERVER_NAME:-"server1"}
-SCRIPTS="$CHE_PROJECTS_ROOT"/wasbase/scripts
-PROFILE_SCRIPT="$SCRIPTS"/server-cfg90.props
-if [ ! -z "$1" ]; then
-    PROFILE_SCRIPT="$1"
-fi
+WAS_PROP="/workspace/server-cfg.props"
+WAS_FINAL_CFG="/etc/websphereserver-cfg.props"
 
 echo 'setting password'
 /work/set_password.sh
@@ -21,7 +18,8 @@ applyConfigs(){
   fi
 }
 
-cp "$PROFILE_SCRIPT" /etc/websphere/server-cfg.props
+echo "Copying properties to the config folder!"
+cp -f "$WAS_PROP" "$WAS_FINAL_CFG"
 
 applyConfigs
 
