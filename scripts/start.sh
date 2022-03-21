@@ -2,7 +2,7 @@ PROFILE_NAME=${PROFILE_NAME:-"AppSrv01"}
 SERVER_NAME=${SERVER_NAME:-"server1"}
 SCRIPTS="$CHE_PROJECTS_ROOT"/wasbase/scripts
 PROFILE_SCRIPT="$SCRIPTS"/server-cfg90.props
-if [! -z "$1"] then
+if [ ! -z "$1" ]; then
     PROFILE_SCRIPT="$1"
 fi
 

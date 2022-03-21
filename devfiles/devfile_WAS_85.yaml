@@ -82,7 +82,7 @@ commands:
   actions:
   - type: exec
     component: wasbase
-    command: scripts/start.sh ""${CHE_PROJECTS_ROOT}/wasbase/scripts/server-cfg85.props"
+    command: scripts/start.sh "${CHE_PROJECTS_ROOT}/wasbase/scripts/server-cfg85.props"
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Stop
   actions:
