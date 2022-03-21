@@ -366,8 +366,8 @@ verboseModeJNI=false #boolean,default(false)
 maximumHeapSize=0 #integer,default(0)
 disableJIT=false #boolean,default(false)
 executableJarFileName=null
-verboseModeGarbageCollection=false #boolean,default(false)
-debugMode=false #boolean,default(false)
+verboseModeGarbageCollection=true #boolean,default(false)
+debugMode=true #boolean,default(false)
 verboseModeClass=false #boolean,default(false)
 
 
