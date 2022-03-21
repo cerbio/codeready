@@ -70,7 +70,7 @@ commands:
   actions:
   - type: exec
     component: wasbase
-    command: scripts/restore_profile.sh "'${CHE_PROJECTS_ROOT}/wasbase/scripts/profile85.bck' '${CHE_PROJECTS_ROOT}/wasbase/scripts/server-cfg85.props'"
+    command: scripts/restore_profile.sh ${CHE_PROJECTS_ROOT}/wasbase/scripts/profile85.bck ${CHE_PROJECTS_ROOT}/wasbase/scripts/server-cfg85.props
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Deploy
   actions:

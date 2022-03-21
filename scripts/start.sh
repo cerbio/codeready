@@ -1,7 +1,7 @@
 PROFILE_NAME=${PROFILE_NAME:-"AppSrv01"}
 SERVER_NAME=${SERVER_NAME:-"server1"}
 WAS_PROP="/workspace/server-cfg.props"
-WAS_FINAL_CFG="/etc/websphereserver-cfg.props"
+WAS_FINAL_CFG="/etc/websphere/server-cfg.props"
 
 echo 'setting password'
 /work/set_password.sh
