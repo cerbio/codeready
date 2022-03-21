@@ -10,7 +10,7 @@ if [ ! -z "$1" ]; then
 fi
 if [ ! -z "$2" ]; then
     echo "Passed param_2: $2"
-    PROFILE_SCRIPT="$2"
+    WASPROP_SCRIPT="$2"
 fi
 
 echo "Restoring profile: $PROFILE_SCRIPT"
