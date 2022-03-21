@@ -30,7 +30,7 @@ components:
         name: MAVEN_OPTS
   - alias: wasbase
     type: dockerimage
-    image: 'ibmcom/websphere-traditional:latest-ubi'
+    image: 'ibmcom/websphere-traditional:9.0.5.10-ubi'
     memoryLimit: 1Gi
     mountSources: true
     volumes:

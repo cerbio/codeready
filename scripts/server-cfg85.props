@@ -128,7 +128,7 @@ AttributeInfo=services
 #
 #Properties
 #
-enable=true #boolean,default(false)
+enable=false #boolean,default(false)
 context=!{serverName}
 suppressStackTraces=false #boolean,default(false)
 messageFilterLevel=NONE #ENUM(WARNING|AUDIT|SERVICE|NONE),default(NONE)
@@ -1437,6 +1437,8 @@ AttributeInfo=properties(name,value)
 #
 #Properties
 #
+trusthostheaderport=true
+com.ibm.ws.webcontainer.extractHostHeaderPort=true
 
 
 #
@@ -1705,7 +1707,7 @@ AttributeInfo=webserverPluginSettings
 #Properties
 #
 ExtendedHandshake=false #boolean,default(false)
-ConnectTimeout=0 #integer,default(0)
+ConnectTimeout=5 #integer,default(0)
 WaitForContinue=false #boolean,default(false)
 ServerIOTimeout=900 #integer,default(900)
 Role=PRIMARY #ENUM(BACKUP|PRIMARY),default(PRIMARY)
@@ -7568,17 +7570,32 @@ AttributeInfo=properties(name,value)
 # End of Section 1.0_1# Cell=!{cellName}:Node=!{nodeName}:Server=!{serverName}
 #
 #
-# Header
+# Header 
 #
 ResourceType=VirtualHost
 ImplementingResourceType=VirtualHost
 ResourceId=Cell=!{cellName}:VirtualHost=admin_host
+#DELETE=true
+#
+
+#
+#Properties
+#
+name=admin_host #required
+
+
+#
+ResourceType=VirtualHost
+ImplementingResourceType=VirtualHost
+ResourceId=Cell=!{cellName}:VirtualHost=myVh
 AttributeInfo=aliases(port,hostname)
 #
 
-#   
+#
 #Properties
 #
+9043=*
+9060=*
 443=*
 #
 #
