@@ -6,7 +6,7 @@ projects:
     source:
       location: "https://github.com/cerbio/codeready.git"
       type: git
-      branch: dev
+      branch: main
 components:
   - id: redhat/java8/latest
     type: chePlugin
@@ -65,6 +65,12 @@ commands:
   - type: exec
     component: maven
     command: 'scripts/build.sh'
+    workdir: ${CHE_PROJECTS_ROOT}/wasbase
+- name: Init defaullt profile
+  actions:
+  - type: exec
+    component: wasbase
+    command: scripts/restore_profile.sh
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Deploy
   actions:
