@@ -6,7 +6,7 @@ projects:
     source:
       location: "https://github.com/cerbio/codeready.git"
       type: git
-      branch: main
+      branch: dev
 components:
   - id: redhat/java8/latest
     type: chePlugin
@@ -34,8 +34,15 @@ components:
     memoryLimit: 1Gi
     mountSources: true
     volumes:
+      # This volume is required to enable profiles command (manageprofile.sh) to not fail!
+      - name: profilenable
+        containerPath: /workspace   
+      # This volume will contains the artifacts produced by the build and to be deployed in the server.
       - name: wasconfig
-        containerPath: /work/config    
+        containerPath: /work/config
+      # Thsi volume overwrites the defautl server to make it persistent!
+      - name: wasprofile
+        containerPath: //opt/IBM/WebSphere/AppServer/profiles/AppSrv01
       - name: wasetc
         containerPath: /etc/websphere    
     endpoints:
