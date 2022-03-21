@@ -88,11 +88,12 @@ except IndexError:
     raise SystemExit("Missing required paramater: <archivepath>")
 
 apps = AdminApp.list()
-if application  in apps:
-  print 'Uninstalling application: ' + application
-  AdminApp.uninstall(application)
-  AdminConfig.save()
-  print 'Uninstalled app!'
+for index in range(len(apps)):
+    if apps[index].find(application) >= 0:
+        print 'Uninstalling application: ' + application
+        AdminApp.uninstall(application)
+        AdminConfig.save()
+        print 'Uninstalled app!'
 print 'Done!'
 
 parms = "-appname " + application
