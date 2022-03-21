@@ -13,5 +13,8 @@ if [ ! -z "$2" ]; then
     PROFILE_SCRIPT="$2"
 fi
 
+echo "Restoring profile: $PROFILE_SCRIPT"
 /opt/IBM/WebSphere/AppServer/bin/manageprofiles.sh -restoreProfile -backupFile "$PROFILE_SCRIPT"
+
+echo "Copying configuration: $WASPROP_SCRIPT"
 cp -f "$WASPROP_SCRIPT" "$WAS_PROP"
