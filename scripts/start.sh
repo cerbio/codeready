@@ -1,5 +1,10 @@
 PROFILE_NAME=${PROFILE_NAME:-"AppSrv01"}
 SERVER_NAME=${SERVER_NAME:-"server1"}
+SCRIPTS="$CHE_PROJECTS_ROOT"/wasbase/scripts
+PROFILE_SCRIPT="$SCRIPTS"/server-cfg90.props
+if [! -z "$1"] then
+    PROFILE_SCRIPT="$1"
+fi
 
 echo 'setting password'
 /work/set_password.sh
@@ -16,7 +21,7 @@ applyConfigs(){
   fi
 }
 
-cp "$CHE_PROJECTS_ROOT"/wasbase/scripts/server-cfg.props /etc/websphere/server-cfg.props
+cp "$PROFILE_SCRIPT" /etc/websphere/server-cfg.props
 
 applyConfigs
 
