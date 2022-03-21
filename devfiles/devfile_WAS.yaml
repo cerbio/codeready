@@ -30,7 +30,7 @@ components:
         name: MAVEN_OPTS
   - alias: wasbase
     type: dockerimage
-    image: ibmcom/websphere-traditional:latest-ubi
+    image: 'ibmcom/websphere-traditional:latest-ubi'
     memoryLimit: 1Gi
     mountSources: true
     volumes:
@@ -42,7 +42,7 @@ components:
         containerPath: /work/config
       # Thsi volume overwrites the defautl server to make it persistent!
       - name: wasprofile
-        containerPath: //opt/IBM/WebSphere/AppServer/profiles/AppSrv01
+        containerPath: /opt/IBM/WebSphere/AppServer/profiles/AppSrv01
       - name: wasetc
         containerPath: /etc/websphere    
     endpoints:
