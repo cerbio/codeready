@@ -7,6 +7,11 @@ projects:
       location: "https://github.com/cerbio/codeready.git"
       type: git
       branch: main
+  - name: sampleapp
+    source:
+      location: "https://github.com/cerbio/was_sample_app.git"
+      type: git
+      branch: main
 components:
   - id: redhat/java8/latest
     type: chePlugin
@@ -30,7 +35,7 @@ components:
         name: MAVEN_OPTS
   - alias: wasbase
     type: dockerimage
-    image: 'ibmcom/websphere-traditional:8.5.5.20-ubi8'
+    image: 'ibmcom/websphere-traditional:8.5.5.17-ubi'
     memoryLimit: 1Gi
     mountSources: true
     volumes:
@@ -60,7 +65,7 @@ components:
     command: ['sleep']
     args: ['infinity']
 commands:
-- name: Build & Publish
+- name: Build
   actions:
   - type: exec
     component: maven
@@ -72,19 +77,25 @@ commands:
     component: wasbase
     command: scripts/restore_profile.sh ${CHE_PROJECTS_ROOT}/wasbase/scripts/profile85.bck ${CHE_PROJECTS_ROOT}/wasbase/scripts/server-cfg85.props
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
-- name: Deploy
+- name: Deploy (App & Config)
   actions:
   - type: exec
     component: wasbase
-    command: scripts/deploy.sh "/work/config/install_app.py HelloWorld /work/config/app.ear"
+    command: scripts/deploy.sh "/work/config/install_app.py Todos ${CHE_PROJECTS_ROOT}/sampleapp/target/TodosApps.war"
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
-- name: Start
+- name: Update (App - fast war/ear replacement)
+  actions:
+  - type: exec
+    component: wasbase
+    command: scripts/update.sh "HelloWorld /work/config/app.ear"
+    workdir: ${CHE_PROJECTS_ROOT}/wasbase
+- name: Start server
   actions:
   - type: exec
     component: wasbase
     command: scripts/start.sh
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
-- name: Stop
+- name: Stop server
   actions:
   - type: exec
     component: wasbase

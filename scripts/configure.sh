@@ -3,8 +3,8 @@ SCRIPTS="$CHE_PROJECTS_ROOT"/wasbase/scripts
 echo "Setting Password"
 /work/set_password.sh
 
-echo starting the Websphere server...
-"$SCRIPTS"/start.sh
+#echo starting the Websphere server...
+#"$SCRIPTS"/start.sh
 
 echo "Applying configuration"
 if [ ! -z "$1" ]; then

@@ -60,7 +60,7 @@ components:
     command: ['sleep']
     args: ['infinity']
 commands:
-- name: Build & Publish
+- name: Build
   actions:
   - type: exec
     component: maven
@@ -72,19 +72,25 @@ commands:
     component: wasbase
     command: scripts/restore_profile.sh
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
-- name: Deploy
+- name: Deploy (App & Config)
   actions:
   - type: exec
     component: wasbase
     command: scripts/deploy.sh "/work/config/install_app.py HelloWorld /work/config/app.ear"
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
-- name: Start
+- name: Update (App - fast war/ear replacement)
+  actions:
+  - type: exec
+    component: wasbase
+    command: scripts/update.sh "HelloWorld /work/config/app.ear"
+    workdir: ${CHE_PROJECTS_ROOT}/wasbase
+- name: Start server
   actions:
   - type: exec
     component: wasbase
     command: scripts/start.sh
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
-- name: Stop
+- name: Stop server
   actions:
   - type: exec
     component: wasbase
