@@ -43,9 +43,10 @@ This component runs the Websphere application server and implements the deployme
 - It is defined from the official IBM image [websphere-traditional](https://hub.docker.com/r/ibmcom/websphere-traditional/).
 - Copies the project code locally (mountSources = true) to access the scripts used to control the Websphere server and deploy the application artifacts.
 - Defines a _Init default profile_ command to enable a default profile for WebSphere.
-- Defines a _Deploy_ command to deploy the artifacts published by the build in the _'work/config'_ folder into the Websphere application server.
-- Defines a _Start_ command to start the Websphere application server.
-- Define a _Stop_ command to stop the Websphere application server.
+- Defines a _Deploy (App & Config)_ command to deploy the artifacts published by the build in the _'work/config'_ folder into the Websphere application server.
+- Defines an _Update (App-fast deploy)_ command to redeploy the EAR file for fast code update.
+- Defines a _Start server_ command to start the Websphere application server.
+- Defines a _Stop server_ command to stop the Websphere application server.
 
 
 ## How the _Deploy_ command works
@@ -54,9 +55,9 @@ The _Deploy_ command is executed on the wasbase component and reads the artifatc
 
 The command, defined in the devfile, includes three main parameters that can be customized:
 
-- The absolute pathname of the python script used to configure WAS: the script implements the deployment of the application and of the configuration of the server (a default implementation is provided).
-- The name of the application (WAS application name)
-- The absolute pathname of the archive to be deployed.
+- The ```absolute pathname of the python script``` used to configure WAS: the script implements the deployment of the application and of the configuration of the server (a default implementation is provided).
+- The ```name``` of the application (WAS application name)
+- The ```absolute pathname of the archive``` to be deployed.
 
 ____________
 
