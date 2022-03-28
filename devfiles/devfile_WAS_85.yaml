@@ -83,7 +83,7 @@ commands:
     component: wasbase
     command: scripts/deploy.sh "/work/config/install_app.py Todos ${CHE_PROJECTS_ROOT}/sampleapp/target/TodosApps.war"
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
-- name: Update (App - fast war/ear replacement)
+- name: Update (App-fast replacement)
   actions:
   - type: exec
     component: wasbase
