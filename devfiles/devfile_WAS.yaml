@@ -60,7 +60,7 @@ components:
     command: ['sleep']
     args: ['infinity']
 commands:
-- name: Build
+- name: Build & Publish
   actions:
   - type: exec
     component: maven
