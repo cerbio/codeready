@@ -7,11 +7,6 @@ projects:
       location: "https://github.com/cerbio/codeready.git"
       type: git
       branch: main
-  - name: sampleapp
-    source:
-      location: "https://github.com/cerbio/was_sample_app.git"
-      type: git
-      branch: main
 components:
   - id: redhat/java8/latest
     type: chePlugin
