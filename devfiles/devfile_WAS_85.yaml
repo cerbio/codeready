@@ -76,7 +76,7 @@ commands:
   actions:
   - type: exec
     component: wasbase
-    command: scripts/deploy.sh "/work/config/install_app.py Todos ${CHE_PROJECTS_ROOT}/sampleapp/target/TodosApps.war"
+    command: scripts/deploy.sh "/work/config/install_app.py HelloWorld /work/config/app.ear"
     workdir: ${CHE_PROJECTS_ROOT}/wasbase
 - name: Update (App-fast replacement)
   actions:
