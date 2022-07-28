@@ -87,14 +87,17 @@ try:
 except IndexError:
     raise SystemExit("Missing required paramater: <archivepath>")
 
-apps = AdminApp.list()
+apps = AdminApp.list().split()
+print("Already deployed: " + str(apps))
+
 for index in range(len(apps)):
-    if apps[index].find(application) >= 0:
+    #if apps[index].find(application) >= 0:
+    if apps[index] == application:
         print 'Uninstalling application: ' + application
         AdminApp.uninstall(application)
         AdminConfig.save()
         print 'Uninstalled app!'
-print 'Done!'
+#print 'Done!'
 
 parms = "-appname " + application
 parms += " -node " + node + " -server " + server
@@ -110,3 +113,5 @@ AdminConfig.save()
 appManager = AdminControl.queryNames('node='+node+',type=ApplicationManager,process='+server+',*')
 AdminControl.invoke(appManager, 'startApplication', application)
 AdminConfig.save()
+
+print ('Done! Deployed ' + application)
