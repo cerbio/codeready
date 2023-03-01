@@ -6,12 +6,12 @@ projects:
   - name: presasse
     git:
       checkoutFrom:
-        remote: 'http://alm.sogei.it/tfs/SIFEntrate1Collection/TP-ENT-SA-0147/_git/PresenzeAssenzeEntrate'
+        remote: 'http://alm.sogei.it/tfs/SIFEntrate1Collection/TP-ENT-SA-0147/PresenzeAssenzeEntrate.git'
         revision: 'codeready-dev'
       remotes:
-        origin: 'http://alm.sogei.it/tfs/SIFEntrate1Collection/TP-ENT-SA-0147/_git/PresenzeAssenzeEntrate'
+        origin: 'http://alm.sogei.it/tfs/SIFEntrate1Collection/TP-ENT-SA-0147/PresenzeAssenzeEntrate.git'
       # The base project required to the WebSphere dev environemnt!
-        wasbase: 'https://Sogei-POC@dev.azure.com/Sogei-POC/Sandbox-Dev-Sogei/_git/devspace-wasbase'
+        wasbase: 'https://Sogei-POC@dev.azure.com/Sogei-POC/Sandbox-Dev-Sogei/devspace-wasbase.git'
 components:
   - name: maven
     container:
