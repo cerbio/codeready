@@ -128,89 +128,89 @@ components:
             weight: 100
           wildcardPolicy: None
 commands:
-  - id: 0 Init default profile
+  - id: initdefaultprofile
     exec:
       component: wasbase
       commandLine: scripts/restore_profile.sh ${CHE_PROJECTS_ROOT}/wasbase/scripts/profile90.bck ${CHE_PROJECTS_ROOT}/wasbase/scripts/server-cfg90.props
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: 3 Start server
+  - id: startserver
     exec:
       component: wasbase
       commandLine: scripts/start.sh
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: 4. Stop server
+  - id: stopserver
     exec:
       component: wasbase
       commandLine:  scripts/stop.sh
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: 5 Deploy All
+  - id: deployall
     exec:
       component: wasbase
       commandLine: /projects/presasse/was/deploy.sh
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: 51 Deploy elaborazioni
+  - id: deployelaborazioni
     exec:
       component: wasbase
       commandLine: /projects/presasse/was/deploy.sh elaborazioni
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: 52 Deploy stampe
+  - id: deploystampe
     exec:
       component: wasbase
       commandLine: /projects/presasse/was/deploy.sh stampe
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: 53 Deploy timbrature
+  - id: deploytimbrature
     exec:
       component: wasbase
       commandLine: /projects/presasse/was/deploy.sh timbrature
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: 54 Deploy frontend
+  - id: deployfrontend
     exec:
       component: wasbase
       commandLine: /projects/presasse/was/deploy.sh frontend
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: Tail SystemOut
+  - id: tailsystemout
     exec:
       component: wasbase
       commandLine:  tail -n100 -f  /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/logs/server1/SystemOut.log
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: Tail SystemErr
+  - id: tailsystemerr
     exec:
       component: wasbase
       commandLine:  tail -n100 -f  /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/logs/server1/SystemErr.log
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: Show console Credentials
+  - id: showconsolecredentials
     exec:
       component: wasbase
       commandLine:   bash show_credentials.sh
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase/scripts
 
   # actions on component maven
-  - id: 0 Init build context
+  - id: initbuildcontext
     exec:
       workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
       commandLine: 'chmod +x *.sh && ./init.sh'
       component: maven
-  - id: 1 Build all
+  - id: buildall
     exec:
       workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
       commandLine: './build-all.sh'
       component: maven
-  - id: 11 Build elaborazioni
+  - id: buildelaborazioni
     exec:
       workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
       commandLine: './build-all.sh elaborazioni'
       component: maven
-  - id: 12 Build stampe
+  - id: buildstampe
     exec:
       workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
       commandLine: './build-all.sh stampe'
       component: maven
-  - id: 13 Build timbrature
+  - id: buildtimbrature
     exec:
       workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
       commandLine: './build-all.sh timbrature'
       component: maven
-  - id: 14 Build frontend
+  - id: buildfrontend
     exec:
       workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
       commandLine: './build-all.sh frontend'
