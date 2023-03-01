@@ -1,39 +1,34 @@
-apiVersion: 1.0.0
+schemaVersion: 2.1.0
 metadata:
   name: PresenzeAssenzeEntrate
 projects:
   # My development project
   - name: presasse
-    source:
-      location: "http://alm.sogei.it/tfs/SIFEntrate1Collection/TP-ENT-SA-0147/_git/PresenzeAssenzeEntrate"
-      type: git
-      branch: develop_spring_mvc
-  # The base project required to the WebSphere dev environemnt!
-  - name: wasbase
-    source:
-      location: "https://Sogei-POC@dev.azure.com/Sogei-POC/Sandbox-Dev-Sogei/_git/devspace-wasbase"
-      type: git
-      branch: main
+    git:
+      checkoutFrom:
+        remote: 'http://alm.sogei.it/tfs/SIFEntrate1Collection/TP-ENT-SA-0147/_git/PresenzeAssenzeEntrate'
+        revision: 'codeready-dev'
+      remotes:
+        origin: 'http://alm.sogei.it/tfs/SIFEntrate1Collection/TP-ENT-SA-0147/_git/PresenzeAssenzeEntrate'
+      # The base project required to the WebSphere dev environemnt!
+        wasbase: 'https://Sogei-POC@dev.azure.com/Sogei-POC/Sandbox-Dev-Sogei/_git/devspace-wasbase'
 components:
-  - id: redhat/java8/latest
-    type: chePlugin
-  - alias: maven
-    type: dockerimage
-    mountSources: true
-    endpoints:
-      - name: 8080-tcp
-        port: 8080
-    memoryLimit: 1Gi
-    volumes:
-      - name: m2
-        containerPath: /home/jboss/.m2
-      - name: wasconfig
-        containerPath: /work/config
+  - name: maven
+    container:
+      image: 'registry.redhat.io/codeready-workspaces/plugin-java8-rhel8:2.15'
+      volumeMounts:
+        - name: m2
+          path: /home/jboss/.m2
+        - name: wasconfig
+          path: /work/config
       # This volume contains application specific configuration files
-      - name: prod_installedApps
-        containerPath: /prod/installedApps
-    image: 'registry.redhat.io/codeready-workspaces/plugin-java8-rhel8:2.15'
-    env:
+        - name: installedapps
+          path: /prod/installedApps
+      endpoints:
+      - name: 8080-tcp
+        targetPort: 8080
+      memoryLimit: 1Gi
+      env:
       - value: '-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms512m  -Xmx2048m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/jboss'
         name: JAVA_OPTS
       - value: $(JAVA_OPTS)
@@ -46,10 +41,10 @@ components:
       # path della directory in cui sono salvati i file di configurazione del WAS
       - name: APP_CONFIG_SRC_DIR_PATH
         value: "/projects/presasse/Documentazione/prod/installedApps/PresenzeAssenzeEntrate"
-  - alias: wasbase
-    type: dockerimage
-    image: 'ibmcom/websphere-traditional:9.0.5.12-ubi'
-    env:
+  - name: wasbase
+    container:
+      image: 'ibmcom/websphere-traditional:9.0.5.12-ubi'
+      env:
       # Nome della cartella in cui copiare le configurazioni del WAS
       # esempio: se la cartella si trova in /prod/installedApps/PresenzeAssenzeEntrate,
       # il valore della variabile dovrà essere "PresenzeAssenzeEntrate"
@@ -59,211 +54,183 @@ components:
       # In questo modo si evita che venga definita in maniera random ad ogni riavvio del workspace.
       - name: CUSTOM_CONSOLE_PSW
         value: "wsadmin"
-    memoryLimit: 3Gi
-    mountSources: true
-    volumes:
+      memoryLimit: 3Gi
+
+      volumeMounts:
       # This volume is required to enable profiles command (manageprofile.sh) to not fail!
       - name: profilenable
-        containerPath: /workspace
+        path: /workspace
       # This volume will contains the artifacts produced by the build and to be deployed in the server.
       - name: wasconfig
-        containerPath: /work/config
+        path: /work/config
       # Thsi volume overwrites the defautl server to make it persistent!
       - name: wasprofile
-        containerPath: /opt/IBM/WebSphere/AppServer/profiles/AppSrv01
+        path: /opt/IBM/WebSphere/AppServer/profiles/AppSrv01
       - name: wasetc
-        containerPath: /etc/websphere
+        path: /etc/websphere
       # This volume contains application specific configuration files
-      - name: prod_installedApps
-        containerPath: /prod/installedApps
-    endpoints:
+      - name: installedapps
+        path: /prod/installedApps
+      endpoints:
       - name: apps
-        port: 9080
+        targetPort: 9080
         attributes:
           discoverable: 'true'
           public: 'true'
           protocol: 'http'
           path: /presenzeAssenzeEntrate/login.jsp
       - name: was
-        port: 9043
+        targetPort: 9043
         attributes:
           discoverable: 'true'
           public: 'true'
           protocol: 'https'
-    command: ['sleep']
-    args: ['infinity']
-
-
-
-
-
-  - type: openshift
-    alias: service-myapp
-    referenceContent: |
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: myapp
-        labels:
-          app: my-app
-      spec:
-        ports:
-        - name: 9080-tcp
-          port: 80
-          targetPort: 9080
-
-  - type: openshift
-    alias: route-myapp
-    referenceContent: |
-      apiVersion: route.openshift.io/v1
-      kind: Route
-      metadata:
-        annotations:
-          openshift.io/host.generated: "true"
-          haproxy.router.openshift.io/timeout: 10m
-        labels:
-          app: my-app
-        name: debug
-      spec:
-        host: debug-presasse-codeready.apps.sandbox-sogei.azure.cloud.areaextra.it
-        port:
-          targetPort: "9080-tcp"
-        tls:
-          insecureEdgeTerminationPolicy: Redirect
-          termination: edge
-        to:
-          kind: Service
+      command: ['sleep']
+      args: ['infinity']
+  
+  - name: service-myapp
+    openshift:
+      inlined: |
+        apiVersion: v1
+        kind: Service
+        metadata:
           name: myapp
-          weight: 100
-        wildcardPolicy: None
+          labels:
+            app: my-app
+        spec:
+          ports:
+          - name: 9080-tcp
+            port: 80
+            targetPort: 9080
 
-
-
-
+  - name: route-myapp
+    openshift: 
+      inlined: |
+        apiVersion: route.openshift.io/v1
+        kind: Route
+        metadata:
+          annotations:
+            openshift.io/host.generated: "true"
+            haproxy.router.openshift.io/timeout: 10m
+          labels:
+            app: my-app
+          name: debug
+        spec:
+          host: debug-presasse.apps.devspace.sogeiaz.it
+          port:
+            targetPort: "9080-tcp"
+          tls:
+            insecureEdgeTerminationPolicy: Redirect
+            termination: edge
+          to:
+            kind: Service
+            name: myapp
+            weight: 100
+          wildcardPolicy: None
 commands:
-  - name: 0. Init default profile
-    actions:
-      - type: exec
-        component: wasbase
-        command: scripts/restore_profile.sh ${CHE_PROJECTS_ROOT}/wasbase/scripts/profile90.bck ${CHE_PROJECTS_ROOT}/wasbase/scripts/server-cfg90.props
-        workdir: ${CHE_PROJECTS_ROOT}/wasbase
-  - name: 3. Start server
-    actions:
-      - type: exec
-        component: wasbase
-        command: scripts/start.sh
-        workdir: ${CHE_PROJECTS_ROOT}/wasbase
-  - name: 4. Stop server
-    actions:
-      - type: exec
-        component: wasbase
-        command:  scripts/stop.sh
-        workdir: ${CHE_PROJECTS_ROOT}/wasbase
-  - name: 5 Deploy (All)
-    actions:
-      - type: exec
-        component: wasbase
-        command: /projects/presasse/was/deploy.sh
-        workdir: ${CHE_PROJECTS_ROOT}/wasbase
-  - name: 5.1 Deploy elaborazioni
-    actions:
-      - type: exec
-        component: wasbase
-        command: /projects/presasse/was/deploy.sh elaborazioni
-        workdir: ${CHE_PROJECTS_ROOT}/wasbase
-  - name: 5.2 Deploy stampe
-    actions:
-      - type: exec
-        component: wasbase
-        command: /projects/presasse/was/deploy.sh stampe
-        workdir: ${CHE_PROJECTS_ROOT}/wasbase
-  - name: 5.3 Deploy timbrature
-    actions:
-      - type: exec
-        component: wasbase
-        command: /projects/presasse/was/deploy.sh timbrature
-        workdir: ${CHE_PROJECTS_ROOT}/wasbase
-  - name: 5.4 Deploy frontend
-    actions:
-      - type: exec
-        component: wasbase
-        command: /projects/presasse/was/deploy.sh frontend
-        workdir: ${CHE_PROJECTS_ROOT}/wasbase
-
-  - name: Tail SystemOut.log
-    actions:
-      - type: exec
-        component: wasbase
-        command:  tail -n100 -f  /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/logs/server1/SystemOut.log
-        workdir: ${CHE_PROJECTS_ROOT}/wasbase
-  - name: Tail SystemErr.log
-    actions:
-      - type: exec
-        component: wasbase
-        command:  tail -n100 -f  /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/logs/server1/SystemErr.log
-        workdir: ${CHE_PROJECTS_ROOT}/wasbase
-  - name: Show console Credentials
-    actions:
-      - type: exec
-        component: wasbase
-        command:   bash show_credentials.sh
-        workdir: ${CHE_PROJECTS_ROOT}/wasbase/scripts
-
+  - id: 0 Init default profile
+    exec:
+      component: wasbase
+      commandLine: scripts/restore_profile.sh ${CHE_PROJECTS_ROOT}/wasbase/scripts/profile90.bck ${CHE_PROJECTS_ROOT}/wasbase/scripts/server-cfg90.props
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+  - id: 3 Start server
+    exec:
+      component: wasbase
+      commandLine: scripts/start.sh
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+  - id: 4. Stop server
+    exec:
+      component: wasbase
+      commandLine:  scripts/stop.sh
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+  - id: 5 Deploy All
+    exec:
+      component: wasbase
+      commandLine: /projects/presasse/was/deploy.sh
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+  - id: 51 Deploy elaborazioni
+    exec:
+      component: wasbase
+      commandLine: /projects/presasse/was/deploy.sh elaborazioni
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+  - id: 52 Deploy stampe
+    exec:
+      component: wasbase
+      commandLine: /projects/presasse/was/deploy.sh stampe
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+  - id: 53 Deploy timbrature
+    exec:
+      component: wasbase
+      commandLine: /projects/presasse/was/deploy.sh timbrature
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+  - id: 54 Deploy frontend
+    exec:
+      component: wasbase
+      commandLine: /projects/presasse/was/deploy.sh frontend
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+  - id: Tail SystemOut
+    exec:
+      component: wasbase
+      commandLine:  tail -n100 -f  /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/logs/server1/SystemOut.log
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+  - id: Tail SystemErr
+    exec:
+      component: wasbase
+      commandLine:  tail -n100 -f  /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/logs/server1/SystemErr.log
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+  - id: Show console Credentials
+    exec:
+      component: wasbase
+      commandLine:   bash show_credentials.sh
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase/scripts
 
   # actions on component maven
-  - name: 0. Init build context
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/presasse/was'
-        type: exec
-        command: 'chmod +x *.sh && ./init.sh'
-        component: maven
-  - name: 1. Build all
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/presasse/was'
-        type: exec
-        command: './build-all.sh'
-        component: maven
-  - name: 1.1 Build elaborazioni
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/presasse/was'
-        type: exec
-        command: './build-all.sh elaborazioni'
-        component: maven
-  - name: 1.2 Build stampe
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/presasse/was'
-        type: exec
-        command: './build-all.sh stampe'
-        component: maven
-  - name: 1.3 Build timbrature
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/presasse/was'
-        type: exec
-        command: './build-all.sh timbrature'
-        component: maven
-  - name: 1.4 Build frontend
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/presasse/was'
-        type: exec
-        command: './build-all.sh frontend'
-        component: maven
+  - id: 0 Init build context
+    exec:
+      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
+      commandLine: 'chmod +x *.sh && ./init.sh'
+      component: maven
+  - id: 1 Build all
+    exec:
+      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
+      commandLine: './build-all.sh'
+      component: maven
+  - id: 11 Build elaborazioni
+    exec:
+      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
+      commandLine: './build-all.sh elaborazioni'
+      component: maven
+  - id: 12 Build stampe
+    exec:
+      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
+      commandLine: './build-all.sh stampe'
+      component: maven
+  - id: 13 Build timbrature
+    exec:
+      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
+      commandLine: './build-all.sh timbrature'
+      component: maven
+  - id: 14 Build frontend
+    exec:
+      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
+      commandLine: './build-all.sh frontend'
+      component: maven
 
-
-  - name: 5. Debug (Attach)
-    actions:
-      - referenceContent: |
-          {
-          "version": "0.2.0",
-          "configurations": [
-          {
-              "type": "java",
-              "request": "attach",
-              "name": "Debug (Attach)",
-              "hostName": "localhost",
-              "port": 7777
-          }
-          ]
-          }
-        type: vscode-launch
+  # - id: 5 Debug (Attach)
+  #   exec:
+  #     - referenceContent: |
+  #         {
+  #         "version": "0.2.0",
+  #         "configurations": [
+  #         {
+  #             "type": "java",
+  #             "request": "attach",
+  #             "name": "Debug (Attach)",
+  #             "hostName": "localhost",
+  #             "port": 7777
+  #         }
+  #         ]
+  #         }
+  #       type: vscode-launch
     # events:
     #  postStart:
