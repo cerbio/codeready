@@ -144,22 +144,13 @@ commands:
       component: wasbase
       commandLine:   bash show_credentials.sh
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase/scripts
-
-  # - id: 5 Debug (Attach)
-  #   exec:
-  #     - referenceContent: |
-  #         {
-  #         "version": "0.2.0",
-  #         "configurations": [
-  #         {
-  #             "type": "java",
-  #             "request": "attach",
-  #             "name": "Debug (Attach)",
-  #             "hostName": "localhost",
-  #             "port": 7777
-  #         }
-  #         ]
-  #         }
-  #       type: vscode-launch
-    # events:
-    #  postStart:
+  - id: build
+    exec:
+      commandLine: 'mvn clean package'
+      component: maven
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+  - id: deploy
+    exec:
+      commandLine: scripts/deploy.sh " ${CHE_PROJECTS_ROOT}/sampleapp/was/install_app.py Todos ${CHE_PROJECTS_ROOT}/sampleapp/target/TodosApps.war"
+      component: wasbase
+      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
