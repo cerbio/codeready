@@ -7,9 +7,9 @@ projects:
     git:
       checkoutFrom:
         remote: origin
-        revision: 'codeready-dev'
+        revision: 'main'
       remotes:
-        origin: 'http://alm.sogei.it/tfs/SIFEntrate1Collection/TP-ENT-SA-0147/_git/PresenzeAssenzeEntrate'
+        origin: 'https://github.com/cerbio/was_sample_app.git'
   - name: wasbase
     git:
       checkoutFrom:
@@ -113,45 +113,6 @@ components:
       command: ['sleep']
       args: ['infinity']
        
-  - name: service-myapp
-    openshift:
-      inlined: |
-        apiVersion: v1
-        kind: Service
-        metadata:
-          name: myapp
-          labels:
-            app: my-app
-        spec:
-          ports:
-          - name: 9080-tcp
-            port: 80
-            targetPort: 9080
-
-  - name: route-myapp
-    openshift: 
-      inlined: |
-        apiVersion: route.openshift.io/v1
-        kind: Route
-        metadata:
-          annotations:
-            openshift.io/host.generated: "true"
-            haproxy.router.openshift.io/timeout: 10m
-          labels:
-            app: my-app
-          name: debug
-        spec:
-          host: debug-presasse.apps.devspace.sogeiaz.it
-          port:
-            targetPort: "9080-tcp"
-          tls:
-            insecureEdgeTerminationPolicy: Redirect
-            termination: edge
-          to:
-            kind: Service
-            name: myapp
-            weight: 100
-          wildcardPolicy: None
 commands:
   - id: initdefaultprofile
     exec:
@@ -168,31 +129,6 @@ commands:
       component: wasbase
       commandLine:  scripts/stop.sh
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: deployall
-    exec:
-      component: wasbase
-      commandLine: /projects/presasse/was/deploy.sh
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: deployelaborazioni
-    exec:
-      component: wasbase
-      commandLine: /projects/presasse/was/deploy.sh elaborazioni
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: deploystampe
-    exec:
-      component: wasbase
-      commandLine: /projects/presasse/was/deploy.sh stampe
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: deploytimbrature
-    exec:
-      component: wasbase
-      commandLine: /projects/presasse/was/deploy.sh timbrature
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
-  - id: deployfrontend
-    exec:
-      component: wasbase
-      commandLine: /projects/presasse/was/deploy.sh frontend
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
   - id: tailsystemout
     exec:
       component: wasbase
@@ -208,38 +144,6 @@ commands:
       component: wasbase
       commandLine:   bash show_credentials.sh
       workingDir: ${CHE_PROJECTS_ROOT}/wasbase/scripts
-
-  # actions on component maven
-  - id: initbuildcontext
-    exec:
-      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
-      commandLine: 'chmod +x *.sh && ./init.sh'
-      component: maven
-  - id: buildall
-    exec:
-      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
-      commandLine: './build-all.sh'
-      component: maven
-  - id: buildelaborazioni
-    exec:
-      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
-      commandLine: './build-all.sh elaborazioni'
-      component: maven
-  - id: buildstampe
-    exec:
-      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
-      commandLine: './build-all.sh stampe'
-      component: maven
-  - id: buildtimbrature
-    exec:
-      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
-      commandLine: './build-all.sh timbrature'
-      component: maven
-  - id: buildfrontend
-    exec:
-      workingDir: '${CHE_PROJECTS_ROOT}/presasse/was'
-      commandLine: './build-all.sh frontend'
-      component: maven
 
   # - id: 5 Debug (Attach)
   #   exec:
