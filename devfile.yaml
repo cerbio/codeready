@@ -41,6 +41,7 @@ components:
       # path della directory in cui sono salvati i file di configurazione del WAS
       - name: APP_CONFIG_SRC_DIR_PATH
         value: "/projects/presasse/Documentazione/prod/installedApps/PresenzeAssenzeEntrate"
+
   - name: wasbase
     container:
       image: 'ibmcom/websphere-traditional:9.0.5.12-ubi'
@@ -88,6 +89,25 @@ components:
       command: ['sleep']
       args: ['infinity']
   
+  - name: m2
+    volume:
+      size: 3Gi
+  - name: wasconfig
+    volume:
+      size: 1Gi
+  - name: installedapps
+    volume:
+      size: 1Gi
+  - name: profilenable 
+    volume:
+      size: 1Gi
+  - name: wasprofile 
+    volume:
+      size: 5Gi
+  - name: wasetc 
+    volume:
+      size: 1Gi
+       
   - name: service-myapp
     openshift:
       inlined: |
