@@ -1,9 +1,9 @@
 schemaVersion: 2.1.0
 metadata:
-  name: PresenzeAssenzeEntrate
+  name: SampleApp
 projects:
   # My development project
-  - name: presasse
+  - name: sampleapp
     git:
       checkoutFrom:
         remote: origin
@@ -57,28 +57,10 @@ components:
         name: JAVA_OPTS
       - value: $(JAVA_OPTS)
         name: MAVEN_OPTS
-      # Nome della cartella in cui copiare le configurazioni del WAS
-      # esempio: se la cartella si trova in /prod/installedApps/PresenzeAssenzeEntrate,
-      # il valore della variabile dovrà essere "PresenzeAssenzeEntrate"
-      - value: "PresenzeAssenzeEntrate"
-        name: APP_CONFIG_DIR_NAME
-      # path della directory in cui sono salvati i file di configurazione del WAS
-      - name: APP_CONFIG_SRC_DIR_PATH
-        value: "/projects/presasse/Documentazione/prod/installedApps/PresenzeAssenzeEntrate"
 
   - name: wasbase
     container:
       image: 'ibmcom/websphere-traditional:9.0.5.12-ubi'
-      env:
-      # Nome della cartella in cui copiare le configurazioni del WAS
-      # esempio: se la cartella si trova in /prod/installedApps/PresenzeAssenzeEntrate,
-      # il valore della variabile dovrà essere "PresenzeAssenzeEntrate"
-      - name: APP_CONFIG_DIR_NAME
-        value: "PresenzeAssenzeEntrate"
-      # Property opzionale per definire la password della console ad un valore predefinito.
-      # In questo modo si evita che venga definita in maniera random ad ogni riavvio del workspace.
-      - name: CUSTOM_CONSOLE_PSW
-        value: "wsadmin"
       memoryLimit: 3Gi
 
       volumeMounts:
@@ -117,40 +99,40 @@ commands:
   - id: initdefaultprofile
     exec:
       component: wasbase
-      commandLine: scripts/restore_profile.sh ${CHE_PROJECTS_ROOT}/wasbase/scripts/profile90.bck ${CHE_PROJECTS_ROOT}/wasbase/scripts/server-cfg90.props
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+      commandLine: scripts/restore_profile.sh ${PROJECTS_ROOT}/wasbase/scripts/profile90.bck ${PROJECTS_ROOT}/wasbase/scripts/server-cfg90.props
+      workingDir: ${PROJECTS_ROOT}/wasbase
   - id: startserver
     exec:
       component: wasbase
       commandLine: scripts/start.sh
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+      workingDir: ${PROJECTS_ROOT}/wasbase
   - id: stopserver
     exec:
       component: wasbase
       commandLine:  scripts/stop.sh
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+      workingDir: ${PROJECTS_ROOT}/wasbase
   - id: tailsystemout
     exec:
       component: wasbase
       commandLine:  tail -n100 -f  /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/logs/server1/SystemOut.log
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+      workingDir: ${PROJECTS_ROOT}/wasbase
   - id: tailsystemerr
     exec:
       component: wasbase
       commandLine:  tail -n100 -f  /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/logs/server1/SystemErr.log
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+      workingDir: ${PROJECTS_ROOT}/wasbase
   - id: showconsolecredentials
     exec:
       component: wasbase
       commandLine:   bash show_credentials.sh
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase/scripts
+      workingDir: ${PROJECTS_ROOT}/wasbase/scripts
   - id: build
     exec:
       commandLine: 'mvn clean package'
       component: maven
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+      workingDir: ${PROJECTS_ROOT}/wasbase
   - id: deploy
     exec:
-      commandLine: scripts/deploy.sh " ${CHE_PROJECTS_ROOT}/sampleapp/was/install_app.py Todos ${CHE_PROJECTS_ROOT}/sampleapp/target/TodosApps.war"
+      commandLine: scripts/deploy.sh " ${PROJECTS_ROOT}/sampleapp/was/install_app.py Todos ${PROJECTS_ROOT}/sampleapp/target/TodosApps.war"
       component: wasbase
-      workingDir: ${CHE_PROJECTS_ROOT}/wasbase
+      workingDir: ${PROJECTS_ROOT}/wasbase
