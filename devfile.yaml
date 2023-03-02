@@ -10,8 +10,14 @@ projects:
         revision: 'codeready-dev'
       remotes:
         origin: 'http://alm.sogei.it/tfs/SIFEntrate1Collection/TP-ENT-SA-0147/_git/PresenzeAssenzeEntrate'
+  - name: wasbase
+    git:
+      checkoutFrom:
+        remote: wasbase
+        revision: 'main'
+      remotes:
       # The base project required to the WebSphere dev environemnt!
-        wasbase: 'https://Sogei-POC@dev.azure.com/Sogei-POC/Sandbox-Dev-Sogei/_git/devspace-wasbase'
+        wasbase: 'https://github.com/cerbio/codeready'
 components:
   - name: m2
     volume:
