@@ -16,13 +16,32 @@ components:
   - name: m2
     volume:
       size: 2Gi
-
+  - name: wasconfig
+    volume:
+      size: 1Gi
+  - name: installedapps
+    volume:
+      size: 1Gi
+  - name: profilenable 
+    volume:
+      size: 1Gi
+  - name: wasprofile 
+    volume:
+      size: 4Gi
+  - name: wasetc 
+    volume:
+      size: 1Gi
   - name: maven
     container:
       image: 'registry.redhat.io/codeready-workspaces/plugin-java8-rhel8:2.15'
       volumeMounts:
         - name: m2
           path: /home/jboss/.m2
+        - name: wasconfig
+          path: /work/config
+      # This volume contains application specific configuration files
+        - name: installedapps
+          path: /prod/installedApps
       endpoints:
       - name: 8080-tcp
         targetPort: 8080
@@ -56,6 +75,21 @@ components:
         value: "wsadmin"
       memoryLimit: 3Gi
 
+      volumeMounts:
+      # This volume is required to enable profiles command (manageprofile.sh) to not fail!
+      - name: profilenable
+        path: /workspace
+      # This volume will contains the artifacts produced by the build and to be deployed in the server.
+      - name: wasconfig
+        path: /work/config
+      # Thsi volume overwrites the defautl server to make it persistent!
+      - name: wasprofile
+        path: /opt/IBM/WebSphere/AppServer/profiles/AppSrv01
+      - name: wasetc
+        path: /etc/websphere
+      # This volume contains application specific configuration files
+      - name: installedapps
+        path: /prod/installedApps
       endpoints:
       - name: apps
         targetPort: 9080
