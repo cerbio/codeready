@@ -13,6 +13,24 @@ projects:
       # The base project required to the WebSphere dev environemnt!
         wasbase: 'https://Sogei-POC@dev.azure.com/Sogei-POC/Sandbox-Dev-Sogei/_git/devspace-wasbase'
 components:
+  - name: m2
+    volume:
+      size: 2Gi
+  - name: wasconfig
+    volume:
+      size: 1Gi
+  - name: installedapps
+    volume:
+      size: 1Gi
+  - name: profilenable 
+    volume:
+      size: 1Gi
+  - name: wasprofile 
+    volume:
+      size: 4Gi
+  - name: wasetc 
+    volume:
+      size: 1Gi
   - name: maven
     container:
       image: 'registry.redhat.io/codeready-workspaces/plugin-java8-rhel8:2.15'
@@ -88,25 +106,6 @@ components:
           protocol: 'https'
       command: ['sleep']
       args: ['infinity']
-  
-  - name: m2
-    volume:
-      size: 3Gi
-  - name: wasconfig
-    volume:
-      size: 1Gi
-  - name: installedapps
-    volume:
-      size: 1Gi
-  - name: profilenable 
-    volume:
-      size: 1Gi
-  - name: wasprofile 
-    volume:
-      size: 5Gi
-  - name: wasetc 
-    volume:
-      size: 1Gi
        
   - name: service-myapp
     openshift:
