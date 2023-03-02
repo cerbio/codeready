@@ -51,7 +51,10 @@ components:
       endpoints:
       - name: 8080-tcp
         targetPort: 8080
+      memoryRequest: 256M
       memoryLimit: 1Gi
+      cpuRequest: 300m
+      cpuLimit: 2000m
       env:
       - value: '-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms512m  -Xmx2048m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/jboss'
         name: JAVA_OPTS
@@ -61,7 +64,10 @@ components:
   - name: wasbase
     container:
       image: 'ibmcom/websphere-traditional:9.0.5.12-ubi'
+      memoryRequest: 512M
       memoryLimit: 3Gi
+      cpuRequest: 500m
+      cpuLimit: 2000m
 
       volumeMounts:
       # This volume is required to enable profiles command (manageprofile.sh) to not fail!
