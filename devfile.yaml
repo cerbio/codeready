@@ -1,7 +1,7 @@
 schemaVersion: 2.1.0
 metadata:
   name: SampleApp
-projects:
+starterProjects:
   # My development project
   - name: sampleapp
     git:
@@ -39,7 +39,8 @@ components:
       size: 1Gi
   - name: maven
     container:
-      image: 'registry.redhat.io/codeready-workspaces/plugin-java8-rhel8:2.15'
+      # image: 'registry.redhat.io/codeready-workspaces/plugin-java8-rhel8:2.15'
+      image: 'quay.io/devfile/universal-developer-image:ubi8-latest'
       volumeMounts:
         - name: m2
           path: /home/jboss/.m2
