@@ -1,5 +1,5 @@
 #!/bin/bash
-SCRIPTS="$CHE_PROJECTS_ROOT"/wasbase/scripts
+SCRIPTS="$PROJECTS_ROOT"/wasbase/scripts
 PROFILE_SCRIPT="$SCRIPTS"/profile90.bck
 WASPROP_SCRIPT="$SCRIPTS"/server-cfg90.props
 WAS_PROP="/workspace/server-cfg.props"
