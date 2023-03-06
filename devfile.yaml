@@ -1,7 +1,7 @@
-schemaVersion: 2.1.0
+schemaVersion: 2.2.0
 metadata:
   name: SampleApp
-starterProjects:
+projects:
   # My development project
   - name: sampleapp
     git:
