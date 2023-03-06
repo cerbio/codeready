@@ -10,14 +10,15 @@ projects:
         revision: 'main'
       remotes:
         origin: 'https://github.com/cerbio/was_sample_app.git'
-  - name: wasbase
-    git:
-      checkoutFrom:
-        remote: wasbase
-        revision: 'main'
-      remotes:
-      # The base project required to the WebSphere dev environemnt!
         wasbase: 'https://github.com/cerbio/codeready'
+  # - name: wasbase
+  #   git:
+  #     checkoutFrom:
+  #       remote: wasbase
+  #       revision: 'main'
+  #     remotes:
+  #     # The base project required to the WebSphere dev environemnt!
+  #       wasbase: 'https://github.com/cerbio/codeready'
 components:
   - name: m2
     volume:
