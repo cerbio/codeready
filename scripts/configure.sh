@@ -1,5 +1,5 @@
 #!/bin/bash
-SCRIPTS="$PROJECTS_ROOT"/wasbase/scripts
+SCRIPTS="$CHE_PROJECTS_ROOT"/wasbase/scripts
 echo "Setting Password"
 /work/set_password.sh
 

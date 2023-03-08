@@ -87,26 +87,32 @@ try:
 except IndexError:
     raise SystemExit("Missing required paramater: <archivepath>")
 
-apps = AdminApp.list()
+apps = AdminApp.list().split()
+print("Already deployed: " + str(apps))
 for index in range(len(apps)):
-    if apps[index].find(application) >= 0:
+    #if apps[index].find(application) >= 0:
+    if apps[index].lower() == application.lower():
         print 'Uninstalling application: ' + application
         AdminApp.uninstall(application)
         AdminConfig.save()
         print 'Uninstalled app!'
-print 'Done!'
+#print 'Done!'
 
 parms = "-appname " + application
 parms += " -node " + node + " -server " + server
 parms += " -nouseMetaDataFromBinary"
+parms += " -usedefaultbindings -createMBeansForResources -noreloadEnabled -custom enhancedEarDisableValidation=true "
+print 'Params:' + parms
 app = AdminApp.install(archpath, [parms])
 print 'Available tasks:'
 AdminTask.help()
-print 'Setting JVM properties'
-AdminTask.setGenericJVMArguments('[-nodeName ' + node + ' -serverName ' + server + ' -genericJvmArguments "-Xnoloa"]')
-AdminTask.setJVMProperties('[-nodeName ' + node + ' -serverName ' + server + ' -debugMode true -debugArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7777"]')
+#print 'Setting JVM properties'
+#AdminTask.setGenericJVMArguments('[-nodeName ' + node + ' -serverName ' + server + ' -genericJvmArguments "-Xnoloa"]')
+#AdminTask.setJVMProperties('[-nodeName ' + node + ' -serverName ' + server + ' -debugMode true -debugArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7777"]')
 AdminConfig.save()
 
 appManager = AdminControl.queryNames('node='+node+',type=ApplicationManager,process='+server+',*')
 AdminControl.invoke(appManager, 'startApplication', application)
 AdminConfig.save()
+
+print ('Done! Deployed ' + application)
