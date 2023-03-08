@@ -1,5 +1,5 @@
 #!/bin/bash
-SCRIPTS="$CHE_PROJECTS_ROOT"/wasbase/scripts
+SCRIPTS="$PROJECTS_ROOT"/wasbase/scripts
 PROFILE_SCRIPT="$SCRIPTS"/profile90.bck
 WASPROP_SCRIPT="$SCRIPTS"/server-cfg90.props
 WAS_PROP="/workspace/server-cfg.props"
@@ -20,4 +20,4 @@ echo "Copying configuration: $WASPROP_SCRIPT"
 cp -f "$WASPROP_SCRIPT" "$WAS_PROP"
 
 echo "Enabling admin console"
-/opt/IBM/WebSphere/AppServer/bin/wsadmin.sh -conntype None -f "$CHE_PROJECTS_ROOT"/wasbase/scripts/enable_console.py
+/opt/IBM/WebSphere/AppServer/bin/wsadmin.sh -conntype None -f "$PROJECTS_ROOT"/wasbase/scripts/enable_console.py
